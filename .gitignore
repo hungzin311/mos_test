@@ -10,6 +10,9 @@ audio/
 
 # Results data
 results.json
+package-lock.json
+yarn.lock
+package.json
 
 # Environment variables
 .env

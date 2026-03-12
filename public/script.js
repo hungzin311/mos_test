@@ -136,6 +136,9 @@ function loadScreen(screenIndex) {
     // Update navigation buttons
     document.getElementById('prev-btn').disabled = screenIndex === 0;
     document.getElementById('next-btn').textContent = screenIndex === totalScreens - 1 ? 'Finish' : 'Next';
+    
+    // Scroll to top of page
+    window.scrollTo(0, 0);
 }
 
 // Go to previous screen
@@ -148,12 +151,70 @@ function prevScreen() {
 
 // Go to next screen
 function nextScreen() {
+    // Validate that all ratings are completed
+    if (!validateCurrentScreen()) {
+        return;
+    }
+    
     saveCurrentScreenResults();
     if (currentScreen < totalScreens - 1) {
         loadScreen(currentScreen + 1);
     } else {
         // Test complete - submit results to server
         submitResults();
+    }
+}
+
+// Validate that all ratings are completed for current screen
+function validateCurrentScreen() {
+    const group = audioGroups[currentScreen];
+    let allRated = true;
+    let missingRatings = [];
+    
+    group.tests.forEach((test, index) => {
+        const naturalRating = document.querySelector(`input[name="natural_${test.id}"]:checked`);
+        const similarityRating = document.querySelector(`input[name="similarity_${test.id}"]:checked`);
+        
+        if (!naturalRating) {
+            missingRatings.push(`Test Audio ${index + 1} - Naturalness rating`);
+        }
+        if (!similarityRating) {
+            missingRatings.push(`Test Audio ${index + 1} - Similarity rating`);
+        }
+    });
+    
+    if (missingRatings.length > 0) {
+        alert(`Please complete all ratings before proceeding:\n\n${missingRatings.join('\n')}`);
+        return false;
+    }
+    
+    return true;
+}
+
+// Submit results to server
+async function submitResults() {
+    try {
+        const response = await fetch('/api/results', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: userId,
+                testResults: results
+            })
+        });
+        
+        if (response.ok) {
+            // Show completion screen
+            document.getElementById('test-screen').classList.add('hidden');
+            document.getElementById('end-screen').classList.remove('hidden');
+        } else {
+            alert('Error submitting results. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error submitting results:', error);
+        alert('Network error. Please check your connection and try again.');
     }
 }
 

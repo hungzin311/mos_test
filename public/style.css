@@ -76,6 +76,11 @@ button:disabled {
     font-weight: bold;
 }
 
+.question label::after {
+    content: " *";
+    color: red;
+}
+
 .rating {
     display: flex;
     justify-content: center;
