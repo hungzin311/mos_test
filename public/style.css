@@ -1,0 +1,107 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+#app {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.screen {
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+h1, h2, h3 {
+    color: #333;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.audio-section {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fafafa;
+}
+
+.audio-player {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.questions {
+    margin-top: 15px;
+}
+
+.question {
+    margin-bottom: 15px;
+}
+
+.question label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.rating {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.rating label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.rating input[type="radio"] {
+    margin-right: 5px;
+}
+
+.navigation {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#download-btn {
+    background-color: #2196F3;
+}
+
+#download-btn:hover {
+    background-color: #0b7dda;
+}

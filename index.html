@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOS Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <div id="start-screen" class="screen">
+            <h1>MOS Test</h1>
+            <p>Listen to the original audio and rate the test samples.</p>
+            <button id="start-btn">Start Test</button>
+        </div>
+        <div id="test-screen" class="screen hidden">
+            <h2>Test Screen <span id="screen-number"></span></h2>
+            <div id="original-audio">
+                <h3>Original Audio</h3>
+                <audio controls id="original-player"></audio>
+            </div>
+            <div id="test-audios">
+                <!-- Test audios will be inserted here -->
+            </div>
+            <div class="navigation">
+                <button id="prev-btn" disabled>Previous</button>
+                <button id="next-btn">Next</button>
+            </div>
+        </div>
+        <div id="end-screen" class="screen hidden">
+            <h1>Test Complete</h1>
+            <p>Thank you for participating.</p>
+            <button id="download-btn">Download Results</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
