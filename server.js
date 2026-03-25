@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8013;
 
 // Middleware
 app.use(cors());
@@ -71,6 +71,15 @@ app.get('/api/user-id', (req, res) => {
     res.json({ userId: uuidv4() });
 });
 
+app.get('/health', (req, res)  => {
+    res.status(200).json({
+        status: 'ok',
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString(),
+        resultsCount: results.length
+    });
+});
+
 // Helper function to save results to file
 function saveResultsToFile() {
     const filePath = path.join(__dirname, 'results.json');
@@ -92,7 +101,7 @@ function loadResultsFromFile() {
 // Initialize
 loadResultsFromFile();
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0',() => {
     console.log(`MOS Test server running on port ${PORT}`);
     console.log(`Access at: http://localhost:${PORT}`);
 });
