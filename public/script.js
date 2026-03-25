@@ -151,11 +151,6 @@ function prevScreen() {
 
 // Go to next screen
 function nextScreen() {
-    // Validate that all ratings are completed
-    if (!validateCurrentScreen()) {
-        return;
-    }
-    
     saveCurrentScreenResults();
     if (currentScreen < totalScreens - 1) {
         loadScreen(currentScreen + 1);
@@ -163,32 +158,6 @@ function nextScreen() {
         // Test complete - submit results to server
         submitResults();
     }
-}
-
-// Validate that all ratings are completed for current screen
-function validateCurrentScreen() {
-    const group = audioGroups[currentScreen];
-    let allRated = true;
-    let missingRatings = [];
-    
-    group.tests.forEach((test, index) => {
-        const naturalRating = document.querySelector(`input[name="natural_${test.id}"]:checked`);
-        const similarityRating = document.querySelector(`input[name="similarity_${test.id}"]:checked`);
-        
-        if (!naturalRating) {
-            missingRatings.push(`Test Audio ${index + 1} - Naturalness rating`);
-        }
-        if (!similarityRating) {
-            missingRatings.push(`Test Audio ${index + 1} - Similarity rating`);
-        }
-    });
-    
-    if (missingRatings.length > 0) {
-        alert(`Please complete all ratings before proceeding:\n\n${missingRatings.join('\n')}`);
-        return false;
-    }
-    
-    return true;
 }
 
 // Submit results to server
@@ -224,13 +193,18 @@ function saveCurrentScreenResults() {
     group.tests.forEach(test => {
         const naturalRating = document.querySelector(`input[name="natural_${test.id}"]:checked`);
         const similarityRating = document.querySelector(`input[name="similarity_${test.id}"]:checked`);
-        
-        if (naturalRating && similarityRating) {
-            results.push({
-                audioId: test.id,
-                natural: parseInt(naturalRating.value),
-                similarity: parseInt(similarityRating.value)
-            });
+
+        const resultItem = {
+            audioId: test.id,
+            natural: naturalRating ? parseInt(naturalRating.value, 10) : 3,
+            similarity: similarityRating ? parseInt(similarityRating.value, 10) : 3
+        };
+
+        const existingIndex = results.findIndex(item => item.audioId === test.id);
+        if (existingIndex >= 0) {
+            results[existingIndex] = resultItem;
+        } else {
+            results.push(resultItem);
         }
     });
 }
